@@ -1,0 +1,84 @@
+<template>
+    <div class="container-md">
+        <h3 class="mx-auto mt-4 text-black-65">Задачи</h3>
+        <div class="col-sm-5">
+        <ul class="list-group">
+            <li class="list-group-item" v-for="case_ in cases" :key="case_">
+                <router-link :to="{
+                        name: 'case-details',
+                        params: { id: case_.id }
+                    }">
+                    {{ case_.description }} 
+                </router-link>
+                {{ case_.income }}
+                {{ case_.begin_date }}
+                {{ case_.end_date }}
+                {{ case_.real_end_date }}
+                {{ case_.employee_id }}
+            </li>
+        </ul>
+        </div>
+        <div class="col-sm-5">
+            <router-link class="item btn btn-primary" to="/addCase" role="button">Взять новый контракт</router-link>
+        </div>
+    </div>
+    </template>
+    
+    <script>
+    import http from "../../http-common";
+    export default {
+            name: "case-list",
+            data() { 
+                return {
+                    companies: {},
+                    employees: [],
+                    cases: [],
+                    companyId: 0,
+                    displayContent: false 
+                };
+            },
+            computed: {
+                currentUser() {
+                    return this.$store.state.auth.user;
+                }
+            },
+            methods: {
+                getCompanyEmployee(data){
+                    http
+                        .get("employees/" + data)
+                        .then(response => {
+                                this.employees = response.data;
+                            })
+                            .catch(e => {
+                                console.log(e);
+                            });
+                },
+                getCompanyData() {
+                        http
+                            .get("/companies/" + this.currentUser.id)
+                            .then(response => {
+                                this.companies = response.data;
+                                this.companyId = this.companies[0].id;
+                                this.getCompanyEmployee(this.companyId);
+                            })
+                            .catch(e => {
+                                console.log(e);
+                            });
+                },
+                getCaseList(){
+                    http
+                        .get("/cases")
+                        .then(response => {
+                            this.cases = response.data;
+                        })
+                        .catch(e => {
+                            console.log(e);
+                        });
+                }
+            },
+            mounted() {
+                this.getCaseList();
+                this.getCompanyData();
+            }
+        }
+    </script>
