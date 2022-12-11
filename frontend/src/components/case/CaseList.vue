@@ -32,7 +32,7 @@
                 return {
                     companies: {},
                     employees: [],
-                    cases: [],
+                    cases: {},
                     companyId: 0,
                     displayContent: false 
                 };
@@ -43,33 +43,12 @@
                 }
             },
             methods: {
-                getCompanyEmployee(data){
-                    http
-                        .get("employees/" + data)
-                        .then(response => {
-                                this.employees = response.data;
-                            })
-                            .catch(e => {
-                                console.log(e);
-                            });
-                },
-                getCompanyData() {
-                        http
-                            .get("/companies/" + this.currentUser.id)
-                            .then(response => {
-                                this.companies = response.data;
-                                this.companyId = this.companies[0].id;
-                                this.getCompanyEmployee(this.companyId);
-                            })
-                            .catch(e => {
-                                console.log(e);
-                            });
-                },
                 getCaseList(){
                     http
-                        .get("/cases")
+                        .get("/cases/" + this.currentUser.id)
                         .then(response => {
                             this.cases = response.data;
+                            console.log(this.cases);
                         })
                         .catch(e => {
                             console.log(e);
@@ -78,7 +57,6 @@
             },
             mounted() {
                 this.getCaseList();
-                this.getCompanyData();
             }
         }
     </script>
