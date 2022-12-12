@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 11 2022 г., 12:53
--- Версия сервера: 10.4.17-MariaDB
--- Версия PHP: 8.0.0
+-- Время создания: Дек 12 2022 г., 03:16
+-- Версия сервера: 10.4.11-MariaDB
+-- Версия PHP: 7.4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `case`
+-- Структура таблицы `case_`
 --
 
-CREATE TABLE `case` (
+CREATE TABLE `case_` (
   `id` int(10) NOT NULL,
   `description` varchar(150) NOT NULL,
   `income` double NOT NULL,
@@ -38,11 +38,11 @@ CREATE TABLE `case` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `case`
+-- Дамп данных таблицы `case_`
 --
 
-INSERT INTO `case` (`id`, `description`, `income`, `begin_date`, `end_date`, `real_end_date`, `employee_id`) VALUES
-(1, 'Начало производства игрушечных самолётиков', 55555, '2022-12-01', '2022-12-10', '2022-12-10', 1),
+INSERT INTO `case_` (`id`, `description`, `income`, `begin_date`, `end_date`, `real_end_date`, `employee_id`) VALUES
+(1, 'Начало производства игрушечных самолётиков\r\n', 55555, '2022-12-01', '2022-12-10', '2022-12-10', 1),
 (2, 'Разводка собак', 125, '2022-12-01', '2022-12-10', '2022-12-12', 2),
 (3, 'Администрирование объекта', 96513, '2022-12-01', '2022-12-13', '2022-12-14', 6);
 
@@ -130,9 +130,9 @@ INSERT INTO `user` (`id`, `name`, `username`, `password`) VALUES
 --
 
 --
--- Индексы таблицы `case`
+-- Индексы таблицы `case_`
 --
-ALTER TABLE `case`
+ALTER TABLE `case_`
   ADD PRIMARY KEY (`id`),
   ADD KEY `employee_id` (`employee_id`);
 
@@ -168,9 +168,9 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT для таблицы `case`
+-- AUTO_INCREMENT для таблицы `case_`
 --
-ALTER TABLE `case`
+ALTER TABLE `case_`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -202,10 +202,10 @@ ALTER TABLE `user`
 --
 
 --
--- Ограничения внешнего ключа таблицы `case`
+-- Ограничения внешнего ключа таблицы `case_`
 --
-ALTER TABLE `case`
-  ADD CONSTRAINT `case_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `case_`
+  ADD CONSTRAINT `case__ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `company`
