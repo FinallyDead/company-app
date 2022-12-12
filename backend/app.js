@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 var db = require('./app/config/db.config.js'); 
 
-db.sequelize.sync({force: false});
+db.sequelize.sync({force: true});
 
 app.listen(3000);
 
