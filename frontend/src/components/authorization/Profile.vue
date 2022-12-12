@@ -44,7 +44,8 @@ import http from "../../http-common";
                     http
                         .get("/getCount/" + this.currentUser.id)
                         .then(response => {
-                            this.quant = response.data;
+                            console.log(response.data)
+                            this.quant = response.data.count;
                         })
                         .catch(e => {
                             console.log(e);

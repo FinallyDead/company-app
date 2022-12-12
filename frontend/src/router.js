@@ -11,6 +11,7 @@ import Employee from "./components/employee/Employee";
 import AddEmployee from "./components/employee/AddEmployee";
 
 import CaseList from "./components/case/CaseList";
+import Case from "./components/case/Case";
 
 
 const routes = [
@@ -77,6 +78,15 @@ const routes = [
         component: CaseList, 
         meta: {
             title: "Список задач"
+        }
+    },
+    {
+        path: "/cases/:id", 
+        name: "case-details", 
+        component: Case, 
+        props: true,
+        meta: {
+            title: "Описание задачи"
         }
     },
 ];

@@ -17,8 +17,8 @@
             <div class="form-group col-auto" > 
                 <label class="label label-default text-black-65">Компания</label>
                 <select class="form-select" v-model="employee.company_id">
-                    <option v-for="(ident,index) in employee.ids" :key="index">
-                      {{ ident.id }}
+                    <option v-for="(ident,index) in employee.ids" :key="index" :value="ident.id">
+                      {{ ident.name }}
                     </option>
                 </select>
             </div>
