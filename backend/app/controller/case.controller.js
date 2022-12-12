@@ -4,10 +4,10 @@ var globalFunctions = require('../config/global.functions.js');
 
 exports.findAllCasesForCompany = (req, res) => {
     db.sequelize.query(
-        `SELECT case.id, case.description, case.income, case.begin_date, case.end_date, case.real_end_date FROM ((company
-            INNER JOIN employee ON company.id=employee.company_id)
-            INNER JOIN case ON employee.id=case.employee_id)
-            WHERE company.user_id=? GROUP BY case.id`, // нужно создать запрос для выбора всех кейсов для компании пользователя
+        `SELECT case_.id, case_.description, case_.income, case_.begin_date, case_.end_date, case_.real_end_date, case_.employee_id FROM company
+            INNER JOIN employee ON company.id=employee.company_id
+            INNER JOIN case_ ON employee.id=case_.employee_id
+            WHERE company.user_id=? GROUP BY case_.id`, 
         {
             type: db.sequelize.QueryTypes.SELECT,
             replacements: [req.params.id] 

@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     var Case = sequelize.define(
-        'case',
+        'case_',
         {
             id: {
                 type: Sequelize.INTEGER(10),

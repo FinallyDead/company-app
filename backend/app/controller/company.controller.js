@@ -50,7 +50,9 @@ exports.getCompanyQuant = (req, res) => {
         }
         })
         .then(object => {
-            globalFunctions.sendResult(res, object);
+            console.log("count " + object);
+            var c = {"count": object}
+            globalFunctions.sendResult(res, c);
         })
         .catch(err => {
             globalFunctions.sendError(res, err);
