@@ -7,6 +7,8 @@ module.exports = (app) => {
     
     app.get('/api/cases/:id', [authJwt.verifyToken], case_.findAllCasesForCompany);
 
+    app.get('/api/case/:id', [authJwt.verifyToken], case_.findById);
+
     app.post('/api/addCase', [authJwt.verifyToken], case_.create);
 
     app.post('/api/updateCase/:id', [authJwt.verifyToken], case_.update);

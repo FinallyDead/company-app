@@ -32,7 +32,7 @@ module.exports = (sequelize, Sequelize) => {
 
     Case.associate = (models) => {
         Case.hasOne(models.state, {
-            foreignKey: 'case_id',
+            foreignKey: 'case__id',
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             sourceKey: 'id'

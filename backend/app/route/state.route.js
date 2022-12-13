@@ -3,7 +3,7 @@ module.exports = (app) => {
 
     const state = require('../controller/state.controller');
     
-    app.get('/api/states', [authJwt.verifyToken], state.findAll);
+    app.get('/api/states/:id', [authJwt.verifyToken], state.findAllCasesStatesForCompany);
 
     app.post('/api/addState', [authJwt.verifyToken], state.create);
 

@@ -47,12 +47,39 @@ exports.login = (req, res) => {
             }
 
             var token = jwt.sign({ id: user.id }, config.secret, {
-                expiresIn: 28800
+                expiresIn: "1h" // 1 час — время действия токена (можете изменить)
             });
-
+            console.log(token);
             var object = {
                 id: user.id,
-                name: user.name,
+                username: user.username,
+                accessToken: token
+            };
+            globalFunctions.sendResult(res, object);
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        });
+};
+
+exports.refreshToken = (req, res) => {
+    User.findOne({
+        where: {
+            username: req.body.username
+        }
+    })
+        .then(user => {
+            if (!user) {
+                globalFunctions.sendError(res, "Неверно введенный логин и/или пароль");
+            }
+
+            var token = jwt.sign({ id: user.id }, config.secret, {
+                expiresIn: "1h" // 1 час — время действия токена
+            });
+            console.log("Новый токен");
+            console.log(token);
+            var object = {
+                id: user.id,
                 username: user.username,
                 accessToken: token
             };

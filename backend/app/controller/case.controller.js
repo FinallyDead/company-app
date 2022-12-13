@@ -20,6 +20,16 @@ exports.findAllCasesForCompany = (req, res) => {
         })
 };
 
+exports.findById = (req, res) => {
+    Case.findByPk(req.params.id)
+        .then(object => {
+            globalFunctions.sendResult(res, object);
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        })
+};
+
 exports.findAll = (req, res) => {
     Case.findAll()
         .then(objects => {

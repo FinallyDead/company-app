@@ -9,6 +9,8 @@ module.exports = (app) => {
         );
         next();
     });
+    
+    app.post("/api/refreshToken", auth.refreshToken);
 
     app.post("/api/register", [verifySignUp.checkDuplicateUsername], auth.register);
 
