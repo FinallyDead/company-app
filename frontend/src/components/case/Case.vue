@@ -1,31 +1,39 @@
 <template>
     <div class="container-md" >
-    <h3 class="mx-auto mt-4 text-black-65" >Сотрудник</h3>
-    <div v-if="employee">
-        <form @submit="updateEmployee" class="row g-2">
+    <h3 class="mx-auto mt-4 text-black-65" >Задача</h3>
+    <div v-if="case_">
+        <form @submit="updateCase" class="row g-2">
                 <div class="col-auto">
-                    <label class="label label-default text-black-65">Имя</label>
-                    <input type="text" name="description" id="description" class="form-control" placeholder="Описание расхода" required v-model="employee.name">
+                    <label class="label label-default text-black-65">Описание</label>
+                    <textarea class="form-control" id="frm" rows="5" required v-model="case_.description"></textarea>
                 </div>
                 <div class="col-auto">
-                    <label class="label label-default text-black-65">Должность</label>    
-                    <input type="text" name="value" id="value" class="form-control" placeholder="Сумма расхода" required v-model="employee.position">
+                    <label class="label label-default text-black-65">Доход</label>    
+                    <input type="text" name="value" id="value" class="form-control" placeholder="Сумма расхода" required v-model="case_.income">
                 </div>
                 <div class="col-auto">    
-                    <label class="label label-default text-black-65">Рейтинг</label>
-                    <input type="text" id="rating" name="rating" class="form-control" required v-model="employee.rating">
+                    <label class="label label-default text-black-65">Дата начала работы</label>
+                    <input type="date" id="rating" name="rating" class="form-control" required v-model="case_.begin_date">
+                </div>
+                <div class="col-auto">    
+                    <label class="label label-default text-black-65">Предполагаемая дата окончания работы</label>
+                    <input type="date" id="date" name="date" class="form-control" required v-model="case_.end_date">
+                </div>
+                <div class="col-auto">    
+                    <label class="label label-default text-black-65">Дата окончания работы</label>
+                    <input type="date" id="date" name="date" class="form-control" required v-model="case_.real_end_date">
                 </div>
             <div class="mt-3">    
                 <input class="btn btn-primary" type="submit" value="Изменить данные">
             </div>
             <div class="mt-3">  
-                <button class="btn btn-danger" v-on:click="deleteEmployee()">Уволить сотрудника</button>
+                <button class="btn btn-danger" v-on:click="deleteEmployee()">Удалить задачу</button>
             </div>
         </form>
     </div>
     <div v-else>
         <br>
-        <p>Выберите сотрудника</p>
+        <p>Выберите задачу</p>
     </div>
 </div>
 </template>
@@ -33,46 +41,49 @@
 <script>
 import http from "../../http-common";
 export default {
-name: "employee-details",
+name: "case-details",
 props: ['id'],
 data() {
     return {
-        employee: null
+        case_: null
     };
 },
 methods: {
-    getEmployee(){
+    getCase(){
         http
-            .get("/employee/"+ this.id)
+            .get("/case/"+ this.id)
             .then(response => {
-                this.employee = response.data;
+                this.case_ = response.data;
             })
             .catch(e => {
                 console.log(e);
             });
     },
-    updateEmployee(e) {
+    updateCase(e) {
         e.preventDefault(); // запрет отправки формы, так как обрабатывать будем с помощью методов axios
         var data = {
-            name: this.employee.name,
-            position: this.employee.position,
-            rating: this.employee.rating,
+            description: this.case_.description,
+            income: this.case_.income,
+            begin_date: this.case_.begin_date,
+            end_date: this.case_.end_date,
+            real_end_date: this.case_.real_end_date,
+            employee_id: this.case_.employee_id
         };
         http
-            .post("/updateEmployee/" + this.employee.id, data)
+            .post("/updateCase/" + this.case_.id, data)
             .then(() => {
-                this.$router.push('/employeeList'); // переходим к списку пользователей
+                this.$router.push('/caseList'); // переходим к списку пользователей
             })
             .catch(e => {
                 console.log(e);
             });
     },
-    deleteEmployee() {
+    deleteCase() {
         http
-            .post("/deleteEmployee/" + this.employee.id)
+            .post("/deleteCase/" + this.case_.id)
             .then(() => {
                 // переходим к списку пользователей (переход по ссылкам программно)
-                this.$router.push('/employeeList');
+                this.$router.push('/caseList');
             })
             .catch(e => {
                 console.log(e);
@@ -80,7 +91,7 @@ methods: {
     }
 },
 mounted(){
-    this.getEmployee();
+    this.getCase();
 }
 }
 </script>

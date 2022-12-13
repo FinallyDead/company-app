@@ -1,4 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router";
+import store from "./store/index";
 
 import Login from "./components/authorization/Login";
 import Profile from "./components/authorization/Profile";
@@ -20,7 +21,8 @@ const routes = [
         name: "company-data", 
         component: Company, 
         meta: {
-            title: "Данные компании"
+            title: "Данные компании",
+            requiredAuth: true
         }
     },
     {
@@ -44,7 +46,8 @@ const routes = [
         name: "profile-user",
         component: Profile,
         meta: {
-            title: "Профиль пользователя"
+            title: "Профиль пользователя",
+            requiredAuth: true
         }
     },
     {
@@ -52,7 +55,8 @@ const routes = [
         name: "employee-list", 
         component: EmployeeList, 
         meta: {
-            title: "Список работников"
+            title: "Список работников",
+            requiredAuth: true
         }
     },
     {
@@ -61,7 +65,8 @@ const routes = [
         component: Employee, 
         props: true,
         meta: {
-            title: "Данные сотрудника"
+            title: "Данные сотрудника",
+            requiredAuth: true
         }
     },
     {
@@ -69,7 +74,8 @@ const routes = [
         name: "add-employee", 
         component: AddEmployee, 
         meta: {
-            title: "Нанять сотрудника"
+            title: "Нанять сотрудника",
+            requiredAuth: true
         }
     },
     {
@@ -77,7 +83,8 @@ const routes = [
         name: "case-list", 
         component: CaseList, 
         meta: {
-            title: "Список задач"
+            title: "Список задач",
+            requiredAuth: true
         }
     },
     {
@@ -86,7 +93,8 @@ const routes = [
         component: Case, 
         props: true,
         meta: {
-            title: "Описание задачи"
+            title: "Описание задачи",
+            requiredAuth: true
         }
     },
 ];
@@ -96,9 +104,31 @@ const router = createRouter({
     routes, 
 });
 
-router.beforeEach((to, from, next) => {
+// указание заголовка компонентам (тега title), заголовки определены в meta
+router.beforeEach(async (to, from, next) => {
+    // для тех маршрутов, для которых не определены компоненты, подключается только App.vue
+    // поэтому устанавливаем заголовком по умолчанию название "Главная страница"
     document.title = to.meta.title || 'Главная страница';
-    next();
-});
 
+    // проверяем наличие токена и срок его действия
+    const auth = await store.getters["auth/isTokenActive"];
+    if (auth) {
+        return next();
+    }
+
+    // если токена нет или его срок действия истёк, а страница доступна только авторизованному пользователю,
+    // то переходим на страницу входа в систему (ссылка на /login)
+    else if (!auth && to.meta.requiredAuth) {
+        const user = JSON.parse(localStorage.getItem("user"));
+        await store.dispatch("auth/refreshToken", user)
+            .then(() => {
+                return next();
+            })
+            .catch(() => {
+                return next({path: "/login"});
+            });
+        return next({ path: "/login" });
+    }
+    return next();
+});
 export default router;
