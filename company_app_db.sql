@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 12 2022 г., 03:16
--- Версия сервера: 10.4.11-MariaDB
--- Версия PHP: 7.4.4
+-- Время создания: Дек 13 2022 г., 16:20
+-- Версия сервера: 10.4.17-MariaDB
+-- Версия PHP: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,9 +42,9 @@ CREATE TABLE `case_` (
 --
 
 INSERT INTO `case_` (`id`, `description`, `income`, `begin_date`, `end_date`, `real_end_date`, `employee_id`) VALUES
-(1, 'Начало производства игрушечных самолётиков\r\n', 55555, '2022-12-01', '2022-12-10', '2022-12-10', 1),
-(2, 'Разводка собак', 125, '2022-12-01', '2022-12-10', '2022-12-12', 2),
-(3, 'Администрирование объекта', 96513, '2022-12-01', '2022-12-13', '2022-12-14', 6);
+(1, 'Начало производства игрушечных самолётиков\r\n', 55555, '2022-12-01', '2022-12-10', '2022-12-01', 1),
+(2, 'Разводка собак', 125, '2022-12-01', '2022-12-10', '2022-12-10', 2),
+(3, 'Администрирование объекта', 96513, '2022-12-01', '2022-12-13', '2022-12-01', 6);
 
 -- --------------------------------------------------------
 
@@ -102,6 +102,15 @@ CREATE TABLE `state` (
   `status` varchar(50) NOT NULL,
   `case_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `state`
+--
+
+INSERT INTO `state` (`id`, `status`, `case_id`) VALUES
+(1, 'В работе', 1),
+(2, 'Завершено', 2),
+(3, 'Не начато', 3);
 
 -- --------------------------------------------------------
 
@@ -189,7 +198,7 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT для таблицы `state`
 --
 ALTER TABLE `state`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `user`
@@ -218,12 +227,6 @@ ALTER TABLE `company`
 --
 ALTER TABLE `employee`
   ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `state`
---
-ALTER TABLE `state`
-  ADD CONSTRAINT `state_ibfk_1` FOREIGN KEY (`case_id`) REFERENCES `case` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
