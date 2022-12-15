@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 13 2022 г., 16:20
+-- Время создания: Дек 15 2022 г., 12:01
 -- Версия сервера: 10.4.17-MariaDB
 -- Версия PHP: 8.0.0
 
@@ -33,7 +33,7 @@ CREATE TABLE `case_` (
   `income` double NOT NULL,
   `begin_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `real_end_date` date NOT NULL,
+  `real_end_date` date DEFAULT NULL,
   `employee_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -42,9 +42,11 @@ CREATE TABLE `case_` (
 --
 
 INSERT INTO `case_` (`id`, `description`, `income`, `begin_date`, `end_date`, `real_end_date`, `employee_id`) VALUES
-(1, 'Начало производства игрушечных самолётиков\r\n', 55555, '2022-12-01', '2022-12-10', '2022-12-01', 1),
-(2, 'Разводка собак', 125, '2022-12-01', '2022-12-10', '2022-12-10', 2),
-(3, 'Администрирование объекта', 96513, '2022-12-01', '2022-12-13', '2022-12-01', 6);
+(1, 'Продажа мороженого', 999, '2022-12-01', '2022-12-12', NULL, 1),
+(2, 'Нарашивание льда', 578, '2022-12-01', '2022-12-14', NULL, 2),
+(3, 'Продажа шариков', 987, '2022-12-01', '2022-12-09', '2022-12-09', 3),
+(4, 'Покупка картин', 36878, '2022-12-01', '2022-12-09', '2022-12-10', 4),
+(5, 'Машинки', 12345678, '2022-12-22', '2022-12-24', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -64,8 +66,7 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`id`, `name`, `employees_quant`, `user_id`) VALUES
-(1, 'Огуречный завод', 3, 1),
-(2, 'Завод котов', 3, 2);
+(1, 'Завод Льда', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -86,10 +87,10 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`id`, `name`, `position`, `rating`, `company_id`) VALUES
-(1, 'Пётр', 'Сантехник', 10, 2),
-(2, 'Игорь', 'Кинолог', 1.5, 2),
-(3, 'Саха', 'Data Scientist', 1, 2),
-(6, 'Пётр Пулемёт', 'Директор', 150, 2);
+(1, 'Павел Пух', 'Статист', 0, 1),
+(2, 'Кирилл НаконецРаботает', 'Работяга', 3, 1),
+(3, 'Серёга Пулемет', 'Менеджер', 4, 1),
+(4, 'Роман Ренегат', 'Дежурный', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -100,17 +101,18 @@ INSERT INTO `employee` (`id`, `name`, `position`, `rating`, `company_id`) VALUES
 CREATE TABLE `state` (
   `id` int(10) NOT NULL,
   `status` varchar(50) NOT NULL,
-  `case_id` int(10) DEFAULT NULL
+  `case__id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `state`
 --
 
-INSERT INTO `state` (`id`, `status`, `case_id`) VALUES
-(1, 'В работе', 1),
-(2, 'Завершено', 2),
-(3, 'Не начато', 3);
+INSERT INTO `state` (`id`, `status`, `case__id`) VALUES
+(1, 'Не начато', 1),
+(2, 'В работе', 2),
+(3, 'Завершено', 3),
+(4, 'Завершено', 4);
 
 -- --------------------------------------------------------
 
@@ -130,9 +132,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `username`, `password`) VALUES
-(1, 'Ахмед Огурец', '123456789', 'qwerty'),
-(2, 'Серёга Механик', '111', '$2a$10$IMchAcn3oRHMBVVfhEYpLuXcWeQ9uZhUcOBThiFJ43xUKxXTAuswe'),
-(3, 'Пётр', '222', '$2a$10$0G1jObLHT1FgXZMCxenUbuqO0D8bessaiy/m6qxqKbdM3uRvTN85q');
+(1, 'Алексей Фростморн', '111', '$2a$10$fJaBONcYz8TIJ1DyBvm./.mPfedwi4D1l2i4w089Mco2c8vMQMdru');
 
 --
 -- Индексы сохранённых таблиц
@@ -164,7 +164,7 @@ ALTER TABLE `employee`
 --
 ALTER TABLE `state`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `case_id` (`case_id`);
+  ADD KEY `case__id` (`case__id`);
 
 --
 -- Индексы таблицы `user`
@@ -180,31 +180,31 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT для таблицы `case_`
 --
 ALTER TABLE `case_`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `company`
 --
 ALTER TABLE `company`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `state`
 --
 ALTER TABLE `state`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -227,6 +227,12 @@ ALTER TABLE `company`
 --
 ALTER TABLE `employee`
   ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `state`
+--
+ALTER TABLE `state`
+  ADD CONSTRAINT `state_ibfk_1` FOREIGN KEY (`case__id`) REFERENCES `case_` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
