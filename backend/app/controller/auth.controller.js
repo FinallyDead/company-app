@@ -52,6 +52,7 @@ exports.login = (req, res) => {
             console.log(token);
             var object = {
                 id: user.id,
+                name: user.name,
                 username: user.username,
                 accessToken: token
             };
@@ -80,6 +81,7 @@ exports.refreshToken = (req, res) => {
             console.log(token);
             var object = {
                 id: user.id,
+                name: user.name,
                 username: user.username,
                 accessToken: token
             };

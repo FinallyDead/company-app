@@ -6,6 +6,8 @@ module.exports = (app) => {
     app.get('/api/cases', [authJwt.verifyToken], case_.findAll);
     
     app.get('/api/cases/:id', [authJwt.verifyToken], case_.findAllCasesForCompany);
+    
+    app.get('/api/comCases/:id', [authJwt.verifyToken], case_.findAllDoneCases);
 
     app.get('/api/case/:id', [authJwt.verifyToken], case_.findById);
 

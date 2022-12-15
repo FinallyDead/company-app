@@ -4,10 +4,10 @@ var globalFunctions = require('../config/global.functions.js');
 
 exports.findAllCasesStatesForCompany = (req, res) => {
     db.sequelize.query(
-        `SELECT state.id, state.status, case_.description FROM company
+        `SELECT state.id, state.status, case_.description, state.case__id FROM company
             INNER JOIN employee ON company.id=employee.company_id
             INNER JOIN case_ ON employee.id=case_.employee_id
-            INNER JOIN state.case_id=case_.id
+            INNER JOIN state ON state.case__id=case_.id
             WHERE company.user_id=? GROUP BY case_.id`, 
         {
             type: db.sequelize.QueryTypes.SELECT,

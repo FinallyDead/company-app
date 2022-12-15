@@ -35,10 +35,44 @@ exports.findAllForCompany = (req, res) => {
         })
 };
 
+exports.findAllEmpIds = (req, res) => {
+    db.sequelize.query(
+        `SELECT employee.id, employee.name FROM employee
+            INNER JOIN company ON company.id=employee.company_id
+            WHERE company.user_id=? GROUP BY employee.id`, 
+        {
+            type: db.sequelize.QueryTypes.SELECT,
+            replacements: [req.params.id] 
+        })
+        .then(objects => {
+            globalFunctions.sendResult(res, objects);
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        })
+};
+
 exports.findById = (req, res) => {
     Employee.findByPk(req.params.id)
         .then(object => {
             globalFunctions.sendResult(res, object);
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        })
+};
+
+exports.getEmployeeQuant = (req, res) => {
+    db.sequelize.query(
+        'SELECT count(*) AS count FROM company INNER JOIN employee ON company.id=employee.company_id WHERE company.user_id = ?', 
+        {
+            type: db.sequelize.QueryTypes.SELECT,
+            replacements: [req.params.id] 
+        })
+        .then(object => {
+            console.log("count " + object);
+            var c = {"count": object}
+            globalFunctions.sendResult(res, c);
         })
         .catch(err => {
             globalFunctions.sendError(res, err);

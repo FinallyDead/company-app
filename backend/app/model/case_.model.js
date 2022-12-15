@@ -26,7 +26,7 @@ module.exports = (sequelize, Sequelize) => {
             },
             real_end_date: {
                 type: Sequelize.DATEONLY,
-                allowNull: false
+                allowNull: true
             },
         });
 

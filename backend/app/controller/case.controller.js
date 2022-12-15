@@ -20,6 +20,25 @@ exports.findAllCasesForCompany = (req, res) => {
         })
 };
 
+exports.findAllDoneCases = (req, res) => {
+    db.sequelize.query(
+        `SELECT case_.id, case_.description, case_.income, case_.begin_date, case_.end_date, case_.real_end_date, case_.employee_id FROM company
+            INNER JOIN employee ON company.id=employee.company_id
+            INNER JOIN case_ ON employee.id=case_.employee_id
+            INNER JOIN state ON case_.id=state.case__id AND state.status="Завершено"
+            WHERE company.user_id=?  GROUP BY case_.id`, 
+        {
+            type: db.sequelize.QueryTypes.SELECT,
+            replacements: [req.params.id] 
+        })
+        .then(objects => {
+            globalFunctions.sendResult(res, objects);
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        })
+};
+
 exports.findById = (req, res) => {
     Case.findByPk(req.params.id)
         .then(object => {
