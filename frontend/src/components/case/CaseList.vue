@@ -1,6 +1,6 @@
 <template>
 <div class="container row">
-    <div class="col-md-auto container-fluid">
+    <div class="col-md-7 container-fluid">
         <h3 class="mx-auto mt-4 text-black-65">Задачи</h3>
         <div class="col-sm-9">
         <ul class="list-group">
@@ -23,8 +23,17 @@
             <router-link class="item btn btn-primary" to="/addCase" role="button">Взять новый контракт</router-link>
         </div>
     </div>
-    <div class="col-md-auto container-fluid">
+    <div class="col-md-5 container-fluid">
         <h3 class="mx-auto mt-4 text-black-65">Статус задач</h3>
+        <div class="col-sm-9">
+            <ul class="list-group">
+                <li class="list-group-item" v-for="status in states" :key="status">
+                    {{ status.description }} |
+                    {{ status.status }} |
+                    {{ status.case__id }}
+                </li>
+            </ul>
+            </div>
     </div>
 </div>
 </template>
@@ -62,7 +71,6 @@
                         .get("/states/" + this.currentUser.id)
                         .then(response => {
                             this.states = response.data;
-                            console.log(this.states);
                         })
                         .catch(e => {
                             console.log(e);

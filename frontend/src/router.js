@@ -6,6 +6,7 @@ import Profile from "./components/authorization/Profile";
 import Register from "./components/authorization/Register";
 
 import Company from "./components/company/Company";
+import BarChart from "./components/company/BarChart";
 
 import EmployeeList from "./components/employee/EmployeeList";
 import Employee from "./components/employee/Employee";
@@ -13,7 +14,7 @@ import AddEmployee from "./components/employee/AddEmployee";
 
 import CaseList from "./components/case/CaseList";
 import Case from "./components/case/Case";
-
+import AddCase from "./components/case/AddCase";
 
 const routes = [
     {
@@ -94,6 +95,24 @@ const routes = [
         props: true,
         meta: {
             title: "Описание задачи",
+            requiredAuth: true
+        }
+    },
+    {
+        path: "/addCase", 
+        name: "add-case", 
+        component: AddCase, 
+        meta: {
+            title: "Новый контракт",
+            requiredAuth: true
+        }
+    },
+    {
+        path: "/barChart", 
+        name: "bar-chart", 
+        component: BarChart, 
+        meta: {
+            title: "График за квартал",
             requiredAuth: true
         }
     },

@@ -9,10 +9,10 @@
             </div>
             <div class="form-group mb-3">
                 <label class="label label-default text-black-65">Количество работников:</label>
-                {{ company.employees_quant }}
+                {{ quant }}
             </div>
         </div>
-        <router-link class="item btn btn-success" role="button" to="">График прибыли за квартал</router-link>
+        <router-link class="item btn btn-success" role="button" to="/barChart">График прибыли за квартал</router-link>
     </div>
     <div class="col-md-auto container-fluid">
         <div class="container ">
@@ -41,13 +41,14 @@ export default {
                 companies: {},
                 companyId: 0,
                 employees: {},
+                quant: 0,
                 displayContent: false 
             };
         },
         computed: {
             currentUser() {
                 return this.$store.state.auth.user;
-            }
+            },
         },
         methods: {
             getCompanyEmployeeTop(data){
@@ -71,11 +72,23 @@ export default {
                         .catch(e => {
                             console.log(e);
                         });
+            },
+            getCount(){
+                    http
+                        .get("/getCountEmp/" + this.currentUser.id)
+                        .then(response => {
+                            console.log(response.data)
+                            this.quant = response.data.count[0].count;
+                        })
+                        .catch(e => {
+                            console.log(e);
+                        });
             }
             
         },
         mounted() {
             this.getCompanyData();
+            this.getCount();
         }
     }
 </script>

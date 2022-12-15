@@ -39,9 +39,9 @@
               </ul>
             </div>
         <div v-else>
-            <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+            <ul class="navbar-nav flex-wrap bd-navbar-nav">
                 <li class="nav-item col-6 col-lg-auto">
-                    <router-link to="/login" class="navbar-brand text-light item">
+                    <router-link to="/login" class="nav-link py-2 px-0 px-lg-2 active navbar-brand text-light">
                         Войти
                     </router-link>
                 </li>
@@ -68,7 +68,8 @@
             this.$store.dispatch('auth/logout'); 
             window.location.href = '/login'; 
         }
-    }
+    },
+    
 };
   </script>
   
