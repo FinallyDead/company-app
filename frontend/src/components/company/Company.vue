@@ -12,7 +12,7 @@
                 {{ quant }}
             </div>
         </div>
-        <router-link class="item btn btn-success" role="button" to="/barChart">График прибыли за квартал</router-link>
+        <router-link class="item btn btn-success" role="button"  to="/barChart">График прибыли за квартал</router-link>
     </div>
     <div class="col-md-auto container-fluid">
         <div class="container ">
@@ -77,7 +77,6 @@ export default {
                     http
                         .get("/getCountEmp/" + this.currentUser.id)
                         .then(response => {
-                            console.log(response.data)
                             this.quant = response.data.count[0].count;
                         })
                         .catch(e => {

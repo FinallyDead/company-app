@@ -29,12 +29,12 @@
     data() {
       return {
         chartData: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['December','January', 'February'],
             datasets: [
                 {
                 label: 'Прибыль',
                 backgroundColor: '#f87979',
-                data: [150]
+                data: [987, 36878]
                 }
             ]
         },
@@ -51,32 +51,28 @@
             },
         },
     methods: {
-      getData(){
-                    http
-                        .get("/comCases/" + this.currentUser.id)
-                        .then(response => {
-                            this.casesForGraphic = response.data;
-                        })
-                        .catch(e => {
-                            console.log(e);
-                        });
-          
+          async getData(){
+            await http
+                .get("/comCases/" + this.currentUser.id)
+                .then(response => {
+                    this.casesForGraphic = response.data;
+                    this.fillIncomeData();
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+  
           
             },
-      fillIncomeData(){ 
-      console.log(this.casesForGraphic);
-      console.log(this.$data);
-      console.log(this.$data.casesForGraphic);
-        console.log(this.casesForGraphic);
-        for (let key in this.$data.casesForGraphic){
-            this.$data.chartData.datasets.at(0).data.push(this.$data.casesForGraphic.at(key).income);
-            console.log(this.$data.chartData.datasets.at(0).data);
+     fillIncomeData(){ 
+        for (let key in this.casesForGraphic){
+            this.chartData.datasets.at(0).data[key]=this.casesForGraphic.at(key).income;
         }
+        console.log(this.chartData.datasets.at(0).data);
       }
     },
-    async mounted(){
+    async created(){
       await this.getData();
-      await this.fillIncomeData();
     }
   }
   </script>
